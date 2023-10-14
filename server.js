@@ -6,7 +6,9 @@
 *
 * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
 *
-* Name: _Christine Ang_ Student ID: _121559223_ Date: Occtober 12, 2023
+* Name: Christine Ang Student ID: 121559223 Date: October 14, 2023
+*
+* Published URL: https://web322-assignment3.cyclic.app/
 *
 ********************************************************************************/
 
