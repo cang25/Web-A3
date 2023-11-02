@@ -25,8 +25,10 @@ function getAllSets(){
 }
 
 function getSetByNum(setNum){
+
+  
     return new Promise((resolve,reject)=>{
-        const found = sets.find((element) => element.set_num === setNum);
+        let found = sets.find((element) => element.set_num === setNum);
 
         if(found){
             resolve(found);

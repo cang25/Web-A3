@@ -18,20 +18,24 @@ const express = require('express');
 const app = express();
 const path = require("path");
 
+
 const HTTP_PORT = process.env.PORT || 8080;
+
+
+app.set('view engine', 'ejs');
 
 app.use(express.static("public"));
 
 app.get("/", (req,res)=>{
-    res.sendFile(path.join(__dirname,"/views/home.html"));
+    res.render("home");
 })
 
 app.get("/about", (req,res)=>{
-    res.sendFile(path.join(__dirname,"/views/about.html"));
+    res.render("about");
 })
 
 app.get("/404", (req,res)=>{
-    res.sendFile(path.join(__dirname,"views/404.html"));
+    res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
 })
 
 app.get('/lego/sets', async (req, res) => {
@@ -39,37 +43,40 @@ app.get('/lego/sets', async (req, res) => {
         let theme = req.query.theme;
         
         if (theme) {
+
             let setByTheme = await legoData.getSetsByTheme(theme);
-            res.send(setByTheme);
+            res.render("sets", {sets: setByTheme});
+           
         } else {
             const allSets = await legoData.getAllSets();
-            res.send(allSets);
+            res.render("sets", {sets: allSets});
         }
         
     } catch (err) {
-        res.status(404).sendFile(path.join(__dirname,"views/404.html"));
+        res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
     }
 });
 
 
 app.get('/lego/sets/:setNum', async (req, res)=>{
-
+ 
     try{
         const idSet = req.params.setNum; 
-    
+
         if(idSet){
-            console.log(idSet);
+
             let setByNum = await legoData.getSetByNum(idSet);
-            res.send(setByNum);
+            res.render("set", {set: setByNum});
+
         }
         else{
-            res.status(404).sendFile(path.join(__dirname,"views/404.html"));
+            res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
         }
 
     }catch(err){
-        res.status(404).sendFile(path.join(__dirname,"views/404.html"));
+        res.status(404).render("404");
     }
-})
+});
 
 legoData.initialize().then(()=>{
     app.listen(HTTP_PORT, ()=>{
