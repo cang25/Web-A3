@@ -1,12 +1,12 @@
 /********************************************************************************
-* WEB322 – Assignment 03
+* WEB322 – Assignment 04
 *
 * I declare that this assignment is my own work in accordance with Seneca's
 * Academic Integrity Policy:
 *
 * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
 *
-* Name: Christine Ang Student ID: 121559223 Date: October 14, 2023
+* Name: Christine Ang Student ID: 121559223 Date: November 3, 2023
 *
 * Published URL: https://web322-assignment3.cyclic.app/
 *
@@ -53,6 +53,7 @@ app.get('/lego/sets', async (req, res) => {
         }
         
     } catch (err) {
+
         res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
     }
 });
@@ -74,8 +75,12 @@ app.get('/lego/sets/:setNum', async (req, res)=>{
         }
 
     }catch(err){
-        res.status(404).render("404");
+        res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
     }
+});
+
+app.get('*', (req, res) => {
+    res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
 });
 
 legoData.initialize().then(()=>{
