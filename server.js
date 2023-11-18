@@ -59,7 +59,8 @@ app.get('/lego/addSet', async(req,res)=>{
         const themeData = await legoData.getAllThemes();
         res.render('addSet', { themes: themeData });
     }catch(err){
-        res.render("500", { message: `I'm sorry, but we have encountered the following error: ${err}` });
+        res.render("500", { message: `I'm sorry, but we have encountered the following error: 
+        ${err}` });
     }
 })
 
