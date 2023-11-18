@@ -17,9 +17,9 @@
           <div class="max-w-md">
             <h1 class="text-5xl font-bold">Collection</h1>
             <p class="py-6">Browse the Collection!</p>
-            <p>Filter by themes such as:</p>  <p><a href="/lego/sets?theme=Basic Set" class="btn btn-primary btn-xs">Basic Set</a>
+            <p>Filter by themes such as:</p>  <p><a href="/lego/sets?theme=Icons" class="btn btn-primary btn-xs">Icons</a>
                                                   <a href="/lego/sets?theme=Classic Town" class="btn btn-primary btn-xs">Classic Town</a>
-                                                  <a href="/lego/sets?theme=Supplemental" class="btn btn-primary btn-xs">Supplemental</a></p>
+                                                  <a href="/lego/sets?theme=Architecture" class="btn btn-primary btn-xs">Architecture</a></p>
           </div>
         </div>
     </div>
@@ -29,11 +29,11 @@
     <% sets.forEach(set=>{ %>
         <tr>
             <td> <div class="avatar">
-                <div class="w-32 h-32 rounded-lg bg-transparent bg-no-repeat bg-cover " style="background-image: url(<%= set.img_url %>);"></div>
+                <div class="w-32 h-32 rounded-lg bg-transparent bg-no-repeat bg-cover " style="background-image: url(<%= set.img_url %>)"></div>
             </div></td>
             
             <td>
-                <%= set.name %> | <a href="/lego/sets?theme=<%= set.theme %>" class="btn  mt-2 btn-xs"><%= set.theme %></a>
+                <%= set.name %> | <a href="/lego/sets?theme=<%= set.Theme.name %>" class="btn  mt-2 btn-xs"><%= set.Theme.name %></a>
             </td>
 
             <td><span class="font-bold">Year: </span> <%= set.year %> - <span class="font-bold">Parts:</span> <%= set.num_parts %></td>
