@@ -6,7 +6,7 @@
 *
 * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
 *
-* Name:Christine Ang Student ID: 121559223 Date: November 19, 2023
+* Name:Christine Ang Student ID: 121559223 Date: November 18, 2023
 *
 * Published URL: https://web322-assignment4.cyclic.app/
 *
@@ -37,7 +37,6 @@ app.get("/about", (req,res)=>{
 app.get("/404", (req,res)=>{
     res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
 })
-
 
 app.get('/lego/sets', async (req, res) => {
     try {
@@ -87,7 +86,6 @@ app.get('/lego/sets/:setNum', async (req, res)=>{
         res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
     }
 });
-
 
 app.get('/lego/editSet/:num', async(req, res)=>{
     try{

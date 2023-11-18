@@ -9,8 +9,7 @@ let sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USER, proc
     dialectOptions: {
       ssl: { rejectUnauthorized: false },
     },
-  });
-
+});
 
 const Theme = sequelize.define('Theme', {
     id: {
@@ -86,15 +85,13 @@ function getSetsByTheme(theme) {
         Set.findAll({include: [Theme], 
             where: {'$Theme.name$': {[Sequelize.Op.iLike]: `%${theme}%`}
         }
-        })
-        .then((foundSets) => {
+        }).then((foundSets) => {
             if (foundSets.length > 0) {
                 resolve(foundSets);
             } else {
                 reject("ERROR: UNABLE TO FIND REQUESTED SETS");
             }
-        })
-        .catch((error) => {
+        }).catch((error) => {
             reject(error);
         });
     });
@@ -113,10 +110,8 @@ function getAllThemes() {
 function addSet(setData){
     return new Promise((resolve, reject) => {
         Set.create(setData).then(()=>{
-            console.log(setData);
             resolve();
         }).catch((err)=>{
-            console.error(err);
             if(err.errors && err.errors.length > 0) {
                 reject(err.errors[0].message)
             }else{
@@ -140,7 +135,6 @@ function deleteSet(set_num){
     return new Promise((resolve, reject)=>{
         Set.destroy({where:{set_num : set_num}}).then(()=>{
             resolve();
-            console.log("DELETED!")
         }).catch((err)=>{
             reject(err.errors[0].message)
         })
