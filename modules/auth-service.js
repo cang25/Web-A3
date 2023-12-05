@@ -35,47 +35,43 @@ function initialize(){
 function registerUser(userData){
     return new Promise((resolve, reject)=>{
 
-        if(userData.password != userData.password2){
+        if(userData.password !== userData.password2){
             reject("Passwords do not match");
         }
         else{
+
             bcrypt.hash(userData.password, 10).then(hash=>{ 
               
                 userData.password = hash;
+                
                 let newUser = new User(userData);
+                
                 newUser.save().then(()=>{
-                    console.log("New user saved!")
-                    console.log(newUser);
                     resolve(); 
                 }).catch(err=>{
-                    console.log(err);
-                    if(err==11000){
-                        reject("User Name already taken");
+                    if(err.code==11000){
+                        reject("Username already taken.");
                     }
                     else{
-                        reject(`There was an error creating the user:${err}`);
+                        reject(`There was an error creating the user:${err}.`);
                     }
                 })
             })
             .catch(err=>{
-            console.log("There was an error encrypting the password"); // Show any errors that occurred during the process
+                reject("There was an error encrypting the password."); 
             });
         }
 
     });
 }
 
+
 function checkUser(userData){
-    console.log("CHECK USER 1");
-    console.log(userData);
     return new Promise((resolve, reject)=>{
         User.find({userName : userData.userName})
         .exec()
         .then(users=>{
             if(users.length === 0){
-                console.log(userData.userName);
-                console.log("CHECK USER 2");
-                console.log(users.length())
                 reject(`Unable to find user: ${userData.userName}`); 
             }
 
@@ -91,9 +87,6 @@ function checkUser(userData){
                         {$set: {loginHistory: users[0].loginHistory}}
                     ).exec().then(()=>{
                         resolve(users[0]); 
-                        console.log(users[0].loginHistory);
-                        console.log(users[0].userName);
-                        console.log("TESTING UDPATE");
                     }).catch(err=>{
                         reject(`There was an error verifying the user: ${err}`);
                     })
@@ -102,11 +95,11 @@ function checkUser(userData){
                     reject(`Incorrect Password for user: ${userData.userName}`);
                 }
             }).catch(err=>{
-                console.log(err);
+                reject(err);
             });
 
         }).catch(err=>{
-            reject(`Unable to find user: ${userData.userName} CANNOT FIND!!`);
+            reject(`Unable to find user: ${userData.userName}`);
         })
     })
 

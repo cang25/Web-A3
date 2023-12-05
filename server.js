@@ -1,12 +1,12 @@
 /********************************************************************************
-* WEB322 – Assignment 05
+* WEB322 – Assignment 06
 *
 * I declare that this assignment is my own work in accordance with Seneca's
 * Academic Integrity Policy:
 *
 * https://www.senecacollege.ca/about/policies/academic-integrity-policy.html
 *
-* Name:Christine Ang Student ID: 121559223 Date: November 18, 2023
+* Name:Christine Ang Student ID: 121559223 Date: December 5, 2023
 *
 * Published URL: https://web322-assignment4.cyclic.app/
 *
@@ -54,21 +54,22 @@ function ensureLogin(req, res, next) {
  }
 
  app.get("/login",(req,res)=>{
-    res.render("login");
+    res.render("login", {errorMessage: null});
  });
 
 app.get("/register",(req,res)=>{
-    res.render("register");
+    res.render("register", { successMessage: null, errorMessage: null });
 });
 
-app.post("/register",(req,res)=>{
+app.post("/register", async (req,res)=>{
    try{
-        authData.registerUser(req.body);
-        res.render("register",{successMessage:"User created"});
+        await authData.registerUser(req.body);
+        res.render("register", {successMessage: "User created", errorMessage: null});
+
     }catch(err){
-        res.render("register",{errorMessage: err, userName: req.body.userName});
+        res.render("register", {errorMessage: `${err}`, userName:req.body.userName, successMessage: null});
     }
-})
+});
 
 app.post("/login", (req, res) => {
     req.body.userAgent = req.get('User-Agent');
@@ -82,8 +83,7 @@ app.post("/login", (req, res) => {
             }
             res.redirect('/lego/sets');
         }).catch((err) => {
-            console.log(err);
-            res.render("login", { message: `${err}`, userName: req.body.userName });
+            res.render("login", { errorMessage: `${err}`, userName: req.body.userName });
         });
 });
 
@@ -94,22 +94,22 @@ app.get("/logout",(req,res)=>{
 
 app.get("/userHistory", ensureLogin, (req,res)=>{
     res.render("userHistory");
-})
+});
 
 //--
 
 
 app.get("/", (req,res)=>{
     res.render("home");
-})
+});
 
 app.get("/about", (req,res)=>{
     res.render("about");
-})
+});
 
 app.get("/404", (req,res)=>{
     res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
-})
+});
 
 app.get('/lego/sets', async (req, res) => {
     try {
@@ -133,7 +133,7 @@ app.get('/lego/addSet', ensureLogin, async(req,res)=>{
     }catch(err){
         res.render("500", { message: `I'm sorry, but we have encountered the following error: ${err}`});
     }
-})
+});
 
 app.post('/lego/addSet', ensureLogin, async(req, res)=>{
     try{
@@ -143,7 +143,7 @@ app.post('/lego/addSet', ensureLogin, async(req, res)=>{
     }catch(err){
         res.render("500", { message: `I'm sorry, but we have encountered the following error: ${err}` });
     }
-})
+});
 
 app.get('/lego/sets/:setNum', async (req, res)=>{
     try{
@@ -195,7 +195,7 @@ app.get('/lego/deleteSet/:num', ensureLogin, async(req,res) =>{
     }catch(err){
         res.render("500", { message: `I'm sorry, but we have encountered the following error: ${err}` });
     }
-})
+});
 
 app.get('*', (req, res) => {
     res.status(404).render("404", {message: "I'm sorry, we're unable to find what you're looking for"});
