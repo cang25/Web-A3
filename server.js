@@ -54,20 +54,20 @@ function ensureLogin(req, res, next) {
  }
 
  app.get("/login",(req,res)=>{
-    res.render("login", {errorMessage: null});
+    res.render("login", {errorMessage: null, userName: null});
  });
 
 app.get("/register",(req,res)=>{
-    res.render("register", { successMessage: null, errorMessage: null });
+    res.render("register", { successMessage: null, errorMessage: null, userName: null });
 });
 
 app.post("/register", async (req,res)=>{
    try{
         await authData.registerUser(req.body);
-        res.render("register", {successMessage: "User created", errorMessage: null});
+        res.render("register", {successMessage: "User created", userName: null, errorMessage: null});
 
     }catch(err){
-        res.render("register", {errorMessage: `${err}`, userName:req.body.userName, successMessage: null});
+        res.render("register", {errorMessage: `${err}`, userName: req.body.userName, successMessage: null});
     }
 });
 
